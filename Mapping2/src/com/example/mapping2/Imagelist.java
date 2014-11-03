@@ -67,7 +67,9 @@ public class Imagelist extends ActionBarActivity {
 						float[] latlong = new float[2];
 						exif.getLatLong(latlong);
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
+						if(latlong[0]!=0){
 						data.add(info[l]);
+						}
 						}
 				}
 				catch (IOException e) {
@@ -85,18 +87,7 @@ public class Imagelist extends ActionBarActivity {
 		
 	
 	}
-	public float[] getlatitude(){
-		longtitude[0]=36;
-		latitude[0]=140;
-		return latitude;
-	}
-	public float[] getlongtitude(){
-		
-		longtitude[0]=36;
-		latitude[0]=140;
-		return longtitude;
-		
-	}
+	
 	public  int plus(int a,int b){
 		return a+b;
 	}

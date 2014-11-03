@@ -70,10 +70,17 @@ public class GraphicView extends View {
 		float[] aska= new float[100];
 		float[] latlong = new float[2];
 		
-		Start start= new Start();
-		Sizemodify sm = new Sizemodify();
-		float multiplex = start.getwidth()/(sm.lonmax-sm.lonmin);
-		float multipley = start.getheight()/(sm.latmax-sm.latmin);
+		//Start start= new Start();
+		Sizemodify sm1 = new Sizemodify();
+		float maxx = sm1.maxlat();
+		Sizemodify sm2 = new Sizemodify();
+		float minx = sm2.minlat();
+		Sizemodify sm3 = new Sizemodify();
+		float maxy = sm3.maxlon();
+		Sizemodify sm4 = new Sizemodify();
+		float miny = sm4.minlon();
+		float multiplex = 800/(maxy-miny)-1;
+		float multipley = 480/(maxx-minx)-1;
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
 			String[] stringArray =  new String[images.length];//配列数１０
@@ -90,9 +97,10 @@ public class GraphicView extends View {
 						//画像位置
 						exif.getLatLong(latlong);
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
+						if(latlong[0]!=0){
 						paint.setStrokeWidth(5);
-			        	canvas.drawPoint(multiplex*latlong[0], multipley*latlong[1], paint);
-						//data.add(info[l]);
+			        	canvas.drawPoint(multipley*(latlong[0]-miny), multiplex*(latlong[1]-minx), paint);
+						}//data.add(info[l]);
 						//aska[m]=latlong[0];
 						//aska[m+1]=latlong[1];
 						}
@@ -113,11 +121,12 @@ public class GraphicView extends View {
     	
         paint.setStrokeWidth(1);
        	paint.setARGB(50,50,50,50);
-        for (int y = 0; y <3600 ; y = y + 2) {
-            canvas.drawLine(0, y, 3600, y, paint);
+       	Start start= new Start();
+        for (int y = 0; y < 800 ; y = y + 10) {
+            canvas.drawLine(0, y, 3800, y, paint);
         }
-        for (int x = 0; x < 3600; x = x + 2) {
-            canvas.drawLine(x, 0, x, 3600, paint);
+        for (int x = 0; x < 480; x = x + 10) {
+            canvas.drawLine(x, 0, x, 3480, paint);
         }
         /*for (int i=0; i<ll.filenum; i++){
         	paint.setStrokeWidth(12);

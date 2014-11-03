@@ -1,0 +1,98 @@
+package com.example.mapping2;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import android.media.ExifInterface;
+import android.os.Bundle;
+import android.os.Environment;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class LatiLong {
+	private File[] images;
+	private List<String> imagelist = new ArrayList<String>();
+	private List<String> data = new ArrayList<String>();
+	private ListView lv;
+	private String[] info;
+	private String[] stringArray;
+	private int l = 0;
+	private int m =0;
+	private float[] aska;
+	public float[] latlong;
+
+	private int f=5;
+	public int filenum;
+
+	/*public float[] getlatitude(){
+		float[] latitude[0]=140;
+		return latitude;
+	}*/
+	public float getlongtitude(){
+		float  longtitude=140;
+		return longtitude;
+	}
+	//ここでもフロートで生成が必要 
+	//public float[] latitude;のあと　float[] latitude= new float[];
+	
+	public int test(){
+		int i = 5;
+		return i;
+	}
+	
+	public float[] arraylat(){
+		
+		String path = Environment.getExternalStorageDirectory().getPath();
+		
+		
+		
+		FilenameFilter fFilter = new FilenameFilter() {
+			    public boolean accept(File dir, String filename) {
+			        return filename.matches(".+.jpg"); //正規表現で検索
+			    }
+		};
+
+		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
+		filenum=images.length;
+		//stringArray = new images.getName();
+		float[] aska= new float[100];
+		//画像のみのフォルダを作成する
+		for (int i=0; i<filenum; i++){//１０回回す
+			String[] stringArray =  new String[images.length];//配列数１０
+			String[] info = new String[images.length];
+			if(images[i].isFile() && images[i].getName().endsWith(".jpg")){
+				imagelist.add(images[i].getName());
+				//stringArray[l] = images[i].getName();
+				try {
+					ExifInterface exif = new ExifInterface(Environment.getExternalStorageDirectory().getPath() +"/DCIM/Camera/"+images[i].getName());
+					if (exif != null) {
+						//画像日付
+						//info[l] = String.format("date: %s", exif.getAttribute(ExifInterface.TAG_DATETIME));	
+						
+						//画像位置
+						float[] latlong = new float[2];
+						exif.getLatLong(latlong);
+						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
+						data.add(info[l]);
+						aska[m]=latlong[0];
+						aska[m+1]=latlong[1];
+						}
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				l=l+1;//インスタンス化でimages.length分生成してしまっている
+				m=m+2;
+			}
+		}
+		return latlong;
+	
+		
+	
+	}
+
+
+}

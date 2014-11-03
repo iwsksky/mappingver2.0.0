@@ -42,8 +42,8 @@ public class GV extends ActionBarActivity {
 	    linearLayout.setOrientation(LinearLayout.VERTICAL);
 		
 		//縦横スクロール
-	    /*scrollView.addView(new GraphicView(this));
-	    horizontalscrollView.addView(scrollView);*/
+	    scrollView.addView(new GraphicView(this));
+	    horizontalscrollView.addView(scrollView);
 		setContentView(new GraphicView(this));
 		
 	}

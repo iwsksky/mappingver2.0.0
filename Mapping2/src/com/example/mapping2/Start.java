@@ -49,13 +49,13 @@ public class Start extends ActionBarActivity{
 		
 		
 		
-
+		Imagelist il=new Imagelist();
 		Sizemodify sm= new Sizemodify();
 		float[][] ono = new float[2*sm.filenum][2];
 		TextView tv = (TextView)findViewById(R.id.textView1);
 		//ono=il.arraylat();
 		ono=sm.Mod();
-		str=String.valueOf(ono[1][1]);
+		str=String.valueOf(ono[1][0]);
 		tv.setText(str);
 		
 		Button btn3 = (Button)findViewById(R.id.button3);

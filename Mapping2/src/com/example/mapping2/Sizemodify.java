@@ -10,6 +10,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.os.Environment;
 import android.view.Display;
@@ -28,7 +29,7 @@ public class Sizemodify {
 	private int m =0;
 	private int n=0;
 	private int k=0;
-	public float[][] aska;
+	public static float[][] aska;
 	public float[] latlong;
 	public float latmax;
 	public float lonmax;
@@ -56,7 +57,8 @@ public class Sizemodify {
 		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
 		filenum=images.length;
 		//stringArray = new images.getName();
-		float[][] aska= new float[2*filenum][2];
+		float[][] aska= new float[filenum][2];
+		List<Float> orient = new ArrayList<Float>();
 		
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
@@ -76,54 +78,71 @@ public class Sizemodify {
 						exif.getLatLong(latlong);
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
 						//data.add(info[l]);
-						aska[i][0]=latlong[0];
-						aska[i][1]=latlong[1];
-						m=m+2;
+						//配列の生成数が多いからnull=0になってる
+						if(latlong[0] !=0){
+							orient.add(latlong[0]);
+							orient.add(latlong[1]);
+							aska[m][0]=latlong[0];
+							aska[m][1]=latlong[1];
+							m=m+1;
 						}
+					}
 				}
 				catch (IOException e) {
 					e.printStackTrace();
 				}
+				String[] string = new String[orient.size()];
+				float[][] orientation = new float[orient.size()][2];
+				for(int c=0; c<orient.size(); c=c+2){
+					//string[c]=(String)orient.get(c);
+					orientation[c][0]= (float)orient.get(c);
+					orientation[c][1]= (float)orient.get(c+1);
+				}
 				l=l+1;//インスタンス化でimages.length分生成してしまっている
-				
+			
 			}
 		}
 		return aska;
     }
     public float maxlat(){
+    	
+    	float[][] latmax = Mod();
+    	float maxmurai=latmax[0][0];
     	for (int n=1; n<filenum; n++){
-    		float latmax = aska[0][0];
-    		if(latmax<aska[n][0]){
-    			latmax=aska[n][0];
+    		if(maxmurai<latmax[n][0]){
+    			maxmurai=latmax[n][0];
     		}
     	}
-    	return latmax;
+    	return maxmurai;
     }
     public float minlat(){
+    	float[][] latmin = Mod();
+    	float minmurai=latmin[0][0];
     	for (int n=1; n<filenum; n++){
-    		float latmin = aska[0][0];
-    		if(latmin>aska[n][0]){
-    			latmin=aska[n][0];
+    		if(minmurai>latmin[n][0]){
+    			minmurai=latmin[n][0];
     		}
     	}
-    	return latmax;
+    	return minmurai;
     }
     public float maxlon(){
+    	float[][] lonmax = Mod();
+    	float maxmurai=lonmax[0][1];
     	for (int n=1; n<filenum; n++){
-    		float lonmax = aska[0][1];
-    		if(lonmax<aska[n][1]){
-    			lonmax=aska[n][1];
+    		if(maxmurai<lonmax[n][1]){
+    			maxmurai=lonmax[n][1];
     		}
     	}
-    	return lonmax;
+    	return maxmurai;
     }
     public float minlon(){
+    	float[][] lonmin = Mod();
+    	float minmurai=lonmin[0][1];
     	for (int n=1; n<filenum; n++){
-    		float lonmin = aska[0][1];
-    		if(lonmin>aska[n][1]){
-    			lonmin=aska[n][1];
+    		if(minmurai>lonmin[n][1]){
+    			minmurai=lonmin[n][1];
     		}
     	}
-    	return lonmax;
+    	return minmurai;
     }
 }

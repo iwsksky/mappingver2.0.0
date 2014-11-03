@@ -1,0 +1,22 @@
+package com.example.mapping2;
+
+public class LatiLong {
+
+	public float[] getlatitude(){
+		float[] latitude[0]=140;
+		return latitude;
+	}
+	public float getlongtitude(){
+		float  longtitude=140;
+		return longtitude;
+	}
+	//ここでもフロートで生成が必要 
+	//public float[] latitude;のあと　float[] latitude= new float[];
+	
+	public int test(){
+		int i = 5;
+		return i;
+	}
+
+
+}
