@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -23,6 +26,8 @@ public class GV extends ActionBarActivity {
 	HorizontalScrollView horizontalscrollView;
 	LinearLayout linearLayout; 
 	
+	public int windows_width;
+    public int window_height;
 	
 	private File[] images;
 	private List<String> imagelist = new ArrayList<String>();
@@ -36,6 +41,18 @@ public class GV extends ActionBarActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+		// ディスプレイのインスタンス生成
+		Display display = getWindowManager().getDefaultDisplay();
+
+        Point size = new Point();
+
+        display.getSize(size);
+
+        windows_width = size.x;    // width
+
+        window_height = size.y;    // height
+    
 		scrollView = new ScrollView(this); 
 		horizontalscrollView = new HorizontalScrollView(this);
 	    linearLayout = new LinearLayout(this);  
@@ -47,6 +64,25 @@ public class GV extends ActionBarActivity {
 		setContentView(new GraphicView(this));
 		
 	}
+	
+	public int getWidth()
+
+    {
+
+        return windows_width;
+
+    }
+
+     
+
+    public int getHeight()
+
+    {
+
+        return window_height;
+
+    }
+		
 
 
 	@Override

@@ -21,9 +21,15 @@ public class Start extends ActionBarActivity{
 	public float[] ono;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
+		
+		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+		// ディスプレイのインスタンス生
+		Display disp = wm.getDefaultDisplay();
+		Point size = new Point();
+		disp.getSize(size);
 		
 	
 		//button1
@@ -48,14 +54,15 @@ public class Start extends ActionBarActivity{
 		});
 		
 		
-		
+		//Displaywidthheight dwh = new Displaywidthheight();
 		Imagelist il=new Imagelist();
 		Sizemodify sm= new Sizemodify();
 		float[][] ono = new float[2*sm.filenum][2];
 		TextView tv = (TextView)findViewById(R.id.textView1);
 		//ono=il.arraylat();
-		ono=sm.Mod();
-		str=String.valueOf(ono[1][0]);
+		ono=sm.test();
+		GV gv = new GV();
+		str=String.valueOf(ono[2][1]);
 		tv.setText(str);
 		
 		Button btn3 = (Button)findViewById(R.id.button3);
@@ -72,24 +79,6 @@ public class Start extends ActionBarActivity{
 		});
 		
 	}
-	public int plus(int a,int b){
-		return a+b;
-	}
-	public int getwidth(){
-		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
-		// ディスプレイのインスタンス生成
-		Display disp = wm.getDefaultDisplay();
-		int x = disp.getWidth();
-		int y = disp.getHeight();
-		return x;
-	}
 	
-	public int getheight(){
-		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
-		// ディスプレイのインスタンス生成
-		Display disp = wm.getDefaultDisplay();
-		int x = disp.getWidth();
-		int y = disp.getHeight();
-		return y;
-	}
+	
 }

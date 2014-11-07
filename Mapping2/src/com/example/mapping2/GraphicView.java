@@ -11,12 +11,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.os.Environment;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 public class GraphicView extends View {
@@ -38,18 +40,19 @@ public class GraphicView extends View {
 	float[] mr;
 	int latala;
 	
-	/*WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-	Display disp = wm.getDefaultDisplay();
-	int width = disp.getWidth();
-	int height = disp.getHeight();*/
+	Context context;
 	
     public GraphicView(Context context) {
         super(context);
+        this.context = context;
     }
     
     @Override
     public void onDraw(Canvas canvas) {
-    	
+    	WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE) ;
+    	Display disp = wm.getDefaultDisplay();
+    	Point size = new Point();
+    	disp.getSize(size);
     	float[] mr = new float[100];
     	LatiLong chage= new LatiLong();
     	Paint paint = new Paint();
@@ -79,8 +82,12 @@ public class GraphicView extends View {
 		float maxy = sm3.maxlon();
 		Sizemodify sm4 = new Sizemodify();
 		float miny = sm4.minlon();
-		float multiplex = 800/(maxy-miny)-1;
-		float multipley = 480/(maxx-minx)-1;
+		
+		
+		float multipley = size.y/(maxy-miny)-1;
+		float multiplex = size.x/(maxx-minx)-1;
+		
+		
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
 			String[] stringArray =  new String[images.length];//配列数１０
@@ -99,7 +106,7 @@ public class GraphicView extends View {
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
 						if(latlong[0]!=0){
 						paint.setStrokeWidth(5);
-			        	canvas.drawPoint(multipley*(latlong[0]-miny), multiplex*(latlong[1]-minx), paint);
+			        	canvas.drawPoint(multiplex*(latlong[0]-minx), multipley*(latlong[1]-miny), paint);
 						}//data.add(info[l]);
 						//aska[m]=latlong[0];
 						//aska[m+1]=latlong[1];
@@ -122,11 +129,11 @@ public class GraphicView extends View {
         paint.setStrokeWidth(1);
        	paint.setARGB(50,50,50,50);
        	Start start= new Start();
-        for (int y = 0; y < 800 ; y = y + 10) {
-            canvas.drawLine(0, y, 3800, y, paint);
+        for (int y = 0; y < size.y ; y = y + 10) {
+            canvas.drawLine(0, y, 3000, y, paint);
         }
-        for (int x = 0; x < 480; x = x + 10) {
-            canvas.drawLine(x, 0, x, 3480, paint);
+        for (int x = 0; x < size.x; x = x + 10) {
+            canvas.drawLine(x, 0, x, 3000, paint);
         }
         /*for (int i=0; i<ll.filenum; i++){
         	paint.setStrokeWidth(12);
