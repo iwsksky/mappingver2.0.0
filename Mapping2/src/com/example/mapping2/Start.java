@@ -37,7 +37,7 @@ public class Start extends ActionBarActivity{
         Button btn = (Button)findViewById(R.id.button1);
 		btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(Start.this, SimpleCameraSumpleActivity.class);
+				Intent intent = new Intent(Start.this, PhotoViewer.class);
 				startActivity(intent);}});
 		//button2
 		Button btn2 = (Button)findViewById(R.id.button2);
@@ -53,16 +53,15 @@ public class Start extends ActionBarActivity{
 			}
 		});
 		
-		
-		//Displaywidthheight dwh = new Displaywidthheight();
-		Imagelist il=new Imagelist();
+	
 		Sizemodify sm= new Sizemodify();
 		float[][] ono = new float[2*sm.filenum][2];
 		TextView tv = (TextView)findViewById(R.id.textView1);
-		//ono=il.arraylat();
 		ono=sm.test();
-		GV gv = new GV();
-		str=String.valueOf(ono[2][1]);
+		
+		/*Sizemodify sm2= new Sizemodify();
+		sm2.test();*/
+		str=String.valueOf(sm.ea[1].lat);
 		tv.setText(str);
 		
 		Button btn3 = (Button)findViewById(R.id.button3);

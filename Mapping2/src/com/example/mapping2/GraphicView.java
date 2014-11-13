@@ -16,6 +16,7 @@ import android.media.ExifInterface;
 import android.os.Environment;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -74,6 +75,9 @@ public class GraphicView extends View {
 		float[] latlong = new float[2];
 		
 		//Start start= new Start();
+		//都度都度インスタンス化しないとaska[m]がサイズオーバーする。
+		//Mod()１回だとaska[m]にサイズと同じfilenum分のデータが格納されるが
+		//２回目からオーバー
 		Sizemodify sm1 = new Sizemodify();
 		float maxx = sm1.maxlat();
 		Sizemodify sm2 = new Sizemodify();
@@ -128,7 +132,7 @@ public class GraphicView extends View {
     	
         paint.setStrokeWidth(1);
        	paint.setARGB(50,50,50,50);
-       	Start start= new Start();
+       	
         for (int y = 0; y < size.y ; y = y + 10) {
             canvas.drawLine(0, y, 3000, y, paint);
         }

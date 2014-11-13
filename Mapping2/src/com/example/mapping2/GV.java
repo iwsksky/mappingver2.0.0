@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
+import android.content.Context;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.media.ExifInterface;
 import android.os.Bundle;
@@ -14,6 +17,9 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
@@ -22,13 +28,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 public class GV extends ActionBarActivity {
+	protected static Context context;
 	ScrollView scrollView;  
 	HorizontalScrollView horizontalscrollView;
 	LinearLayout linearLayout; 
-	
-	public int windows_width;
-    public int window_height;
-	
 	private File[] images;
 	private List<String> imagelist = new ArrayList<String>();
 	private List<String> data = new ArrayList<String>();
@@ -37,22 +40,12 @@ public class GV extends ActionBarActivity {
 	private String[] stringArray;
 	private int l = 0;
 	private float[] lat;
+	public View GraphicView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
-		// ディスプレイのインスタンス生成
-		Display display = getWindowManager().getDefaultDisplay();
-
-        Point size = new Point();
-
-        display.getSize(size);
-
-        windows_width = size.x;    // width
-
-        window_height = size.y;    // height
-    
+		
 		scrollView = new ScrollView(this); 
 		horizontalscrollView = new HorizontalScrollView(this);
 	    linearLayout = new LinearLayout(this);  
@@ -61,27 +54,9 @@ public class GV extends ActionBarActivity {
 		//縦横スクロール
 	    scrollView.addView(new GraphicView(this));
 	    horizontalscrollView.addView(scrollView);
-		setContentView(new GraphicView(this));
+		setContentView(new TestView(this));
 		
 	}
-	
-	public int getWidth()
-
-    {
-
-        return windows_width;
-
-    }
-
-     
-
-    public int getHeight()
-
-    {
-
-        return window_height;
-
-    }
 		
 
 

@@ -44,6 +44,10 @@
             android:name=".Displaywidthheight"
             android:label="@string/title_activity_displaywidthheight" >
         </activity>
+        <activity
+            android:name=".PhotoViewer"
+            android:label="@string/title_activity_photo_viewer" >
+        </activity>
     </application>
 
 </manifest>

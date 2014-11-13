@@ -8,5 +8,6 @@
     <string name="title_activity_simple_camera_sumple">SimpleCameraSumpleActivity</string>
     <string name="title_activity_gv">GV</string>
     <string name="title_activity_displaywidthheight">Displaywidthheight</string>
+    <string name="title_activity_photo_viewer">PhotoViewer</string>
 
 </resources>
