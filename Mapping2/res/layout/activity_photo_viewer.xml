@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="236dp"
+        android:scaleType="fitXY"
         android:src="@drawable/abc_ab_share_pack_holo_dark" />
 
 </RelativeLayout>

@@ -13,22 +13,24 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ListView;
 
-public class Sizemodify  {
+public class Sizemodify extends ActionBarActivity  {
 
 	private File[] images;
 	private List<String> imagelist = new ArrayList<String>();
 	private List<String> data = new ArrayList<String>();
 	public List<Float> orient;
-	private ListView lv;
 	private String[] info;
 	private String[] stringArray;
 	private int l = 0;
@@ -40,10 +42,11 @@ public class Sizemodify  {
 	public static float[][] aska;
 	public float[] testnum;
 	public ExifArray[] ea;
+	int orientation;
 	
 
 	public int filenum;
-	float[] mr;
+	static Context context;
 
 	
 	public void up(){
@@ -73,7 +76,10 @@ public class Sizemodify  {
 		float[][] aska= new float[filenum][2];
 		ea = new ExifArray[filenum];
 		List<Float> orient = new ArrayList<Float>();
-		
+		/*TestView tv = new TestView(getApplicationContext());
+		tv.size();
+		int y=tv.disheight;
+		int x=tv.diswidth;*/
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
 			String[] stringArray =  new String[images.length];//配列数１０
@@ -93,6 +99,7 @@ public class Sizemodify  {
 						float[] latlong = new float[2];
 						exif.getLatLong(latlong);
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
+						
 						//data.add(info[l]);
 						//配列の生成数が多いからnull=0になってる
 						if(latlong[0] !=0){
@@ -103,8 +110,54 @@ public class Sizemodify  {
 							aska[m][1]=latlong[1];
 							
 							//サムネイル取得
-							byte[] image = exif.getThumbnail();
-							Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+							BitmapFactory.Options options = new BitmapFactory.Options();
+							/*options.inJustDecodeBounds=true;
+							BitmapFactory.decodeFile(path+"/DCIM/Camera/"+images[i].getName(), options);
+							int imageHeight = options.outHeight;  
+							int imageWidth = options.outWidth;  
+							TestView tv = new TestView(TestView.context);
+							int modheight=imageHeight/tv.disheight();
+							int modwidth = imageWidth/tv.diswidth();
+							
+							int scale = Math.max(modheight, modwidth);*/
+							
+							options.inJustDecodeBounds=false;
+							options.inSampleSize=100;
+							//byte[] image = exif.getThumbnail();
+							//orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+							/*Matrix matrix = new Matrix();
+							switch (orientation) {
+							case ExifInterface.ORIENTATION_UNDEFINED:
+								break;
+							case ExifInterface.ORIENTATION_NORMAL:
+								break;
+							case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+								matrix.postScale(-1f, 1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_180:
+								matrix.postRotate(180f);
+								break;
+							case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_90:
+								matrix.postRotate(90f);
+								break;
+							case ExifInterface.ORIENTATION_TRANSVERSE:
+								matrix.postRotate(-90f);
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_TRANSPOSE:
+								matrix.postRotate(90f);
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_270:
+								matrix.postRotate(-90f);
+								break;
+							}*/
+							Bitmap bitmap =BitmapFactory.decodeFile(path+"/DCIM/Camera/"+images[i].getName(), options);
+							//Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, 10,10);
+							//Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
 							ea[m]=new ExifArray(latlong[0],latlong[1],bitmap);
 							m=m+1;
 						
