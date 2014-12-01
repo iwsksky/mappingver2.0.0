@@ -6,57 +6,59 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.media.ExifInterface;
+import android.os.Bundle;
 import android.os.Environment;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
-public class GraphicView extends View {
-	//public float[] froot;
-	
+public class GraphicView extends ActionBarActivity {
+
 	private File[] images;
 	private List<String> imagelist = new ArrayList<String>();
 	private List<String> data = new ArrayList<String>();
-	private ListView lv;
+	public List<Float> orient;
 	private String[] info;
 	private String[] stringArray;
 	private int l = 0;
 	private int m =0;
-	private float[] aska;
-	public float[] latlong;
-
-	private int f=5;
-	public int filenum;
-	float[] mr;
-	int latala;
-	
+	private int n=0;
+	private int k=0;
+	public int z=0;
+	public int photonum;
+	public static float[][] aska;
+	public float[] testnum;
+	public ExifArray[] ea;
+	int orientation;
 	Context context;
 	
-    public GraphicView(Context context) {
-        super(context);
-        this.context = context;
-    }
-    
-    @Override
-    public void onDraw(Canvas canvas) {
-    	WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE) ;
-    	Display disp = wm.getDefaultDisplay();
-    	Point size = new Point();
-    	disp.getSize(size);
-    	float[] mr = new float[100];
-    	LatiLong chage= new LatiLong();
-    	Paint paint = new Paint();
+
+	public int filenum;
+	
+
+	
+	public void up(){
+		z=z+1;
+	}
+	
+	
+
+    public float[][] test() {
+    	
 		//mr=chage.arraylat();
     	String path = Environment.getExternalStorageDirectory().getPath();
 		
@@ -71,27 +73,16 @@ public class GraphicView extends View {
 		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
 		filenum=images.length;
 		//stringArray = new images.getName();
-		float[] aska= new float[100];
-		float[] latlong = new float[2];
+		//orient.size()がnull
+		//float[] orientation = new float[100];
+		float[][] aska= new float[filenum][2];
+		ea = new ExifArray[filenum];
+		List<Float> orient = new ArrayList<Float>();
 		
-		//Start start= new Start();
-		//都度都度インスタンス化しないとaska[m]がサイズオーバーする。
-		//Mod()１回だとaska[m]にサイズと同じfilenum分のデータが格納されるが
-		//２回目からオーバー
-		Sizemodify sm1 = new Sizemodify();
-		float maxx = sm1.maxlat();
-		Sizemodify sm2 = new Sizemodify();
-		float minx = sm2.minlat();
-		Sizemodify sm3 = new Sizemodify();
-		float maxy = sm3.maxlon();
-		Sizemodify sm4 = new Sizemodify();
-		float miny = sm4.minlon();
-		
-		
-		float multipley = size.y/(maxy-miny)-1;
-		float multiplex = size.x/(maxx-minx)-1;
-		
-		
+		/*クラスのみを追加しているのでnullになる
+		 * activityを追加しなければいけない
+		 */
+		TestView tv = new TestView(this.getApplicationContext());
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
 			String[] stringArray =  new String[images.length];//配列数１０
@@ -105,49 +96,142 @@ public class GraphicView extends View {
 						//画像日付
 						//info[l] = String.format("date: %s", exif.getAttribute(ExifInterface.TAG_DATETIME));	
 						
-						//画像位置
+						
+						
+						//位置情報取得
+						float[] latlong = new float[2];
 						exif.getLatLong(latlong);
 						info[l] = String.format("latlong: %f, %f", latlong[0], latlong[1]);
-						if(latlong[0]!=0){
-						paint.setStrokeWidth(5);
-			        	canvas.drawPoint(multiplex*(latlong[0]-minx), multipley*(latlong[1]-miny), paint);
-						}//data.add(info[l]);
-						//aska[m]=latlong[0];
-						//aska[m+1]=latlong[1];
+						
+						//data.add(info[l]);
+						//配列の生成数が多いからnull=0になってる
+						if(latlong[0] !=0){
+							orient.add(latlong[0]);
+							orient.add(latlong[1]);
+							
+							aska[m][0]=latlong[0];
+							aska[m][1]=latlong[1];
+							
+							//サムネイル取得
+							BitmapFactory.Options options = new BitmapFactory.Options();
+							/*options.inJustDecodeBounds=true;
+							BitmapFactory.decodeFile(path+"/DCIM/Camera/"+images[i].getName(), options);
+							int imageHeight = options.outHeight;  
+							int imageWidth = options.outWidth;  
+							TestView tv = new TestView(TestView.context);
+							int modheight=imageHeight/tv.disheight();
+							int modwidth = imageWidth/tv.diswidth();
+							
+							int scale = Math.max(modheight, modwidth);*/
+							
+							options.inJustDecodeBounds=false;
+							options.inSampleSize=100;
+							//byte[] image = exif.getThumbnail();
+							//orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+							/*Matrix matrix = new Matrix();
+							switch (orientation) {
+							case ExifInterface.ORIENTATION_UNDEFINED:
+								break;
+							case ExifInterface.ORIENTATION_NORMAL:
+								break;
+							case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+								matrix.postScale(-1f, 1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_180:
+								matrix.postRotate(180f);
+								break;
+							case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_90:
+								matrix.postRotate(90f);
+								break;
+							case ExifInterface.ORIENTATION_TRANSVERSE:
+								matrix.postRotate(-90f);
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_TRANSPOSE:
+								matrix.postRotate(90f);
+								matrix.postScale(1f, -1f);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_270:
+								matrix.postRotate(-90f);
+								break;
+							}*/
+							//Bitmap bitmap =BitmapFactory.decodeFile(path+"/DCIM/Camera/"+images[i].getName(), options);
+							//Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, 10,10);
+							//Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+							ea[m]=new ExifArray(latlong[0],latlong[1],i);
+							m=m+1;
+						
 						}
+						
+						
+					}
 				}
 				catch (IOException e) {
 					e.printStackTrace();
 				}
+				
 				l=l+1;//インスタンス化でimages.length分生成してしまっている
-				m=m+2;
+			
 			}
 		}
-        // 座標系がわかるような罫線を引く
-    	LatiLong ll = new LatiLong();
-    	//froot = new float[2];
-    	//float[] imgX = new float[1];
-    	//float[] imgY = new float[1];
-    	//imgX=ll.getlatitude();*/
-    	
-        paint.setStrokeWidth(1);
-       	paint.setARGB(50,50,50,50);
-       	
-        for (int y = 0; y < size.y ; y = y + 10) {
-            canvas.drawLine(0, y, 3000, y, paint);
-        }
-        for (int x = 0; x < size.x; x = x + 10) {
-            canvas.drawLine(x, 0, x, 3000, paint);
-        }
-        /*for (int i=0; i<ll.filenum; i++){
-        	paint.setStrokeWidth(12);
-        	canvas.drawPoint(mr[i], mr[i+1], paint);
-        }*/
-    }
-    protected void onMeasure(int widthMeasureSpec,int heightMeasureSpec){
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // Viewの描画サイズを指定する
-        //setMeasuredDimension(3600,3600);
-    }
+		photonum = orient.size();
+		float[] testnum = new float[2];
+		testnum[0]=5;
+		float[][] orientation = new float[photonum][2];
+		for(int c=0; c<photonum; c=c+2){
+			//string[c]=(String)orient.get(c);
+			orientation[n][0]= orient.get(c);
+			orientation[n][1]= orient.get(c+1);
+			n=n+1;
+		}
+		
+		//オブジェクト型配列生成
+		
+		return orientation;
     
+    }
+    public float maxlat(){
+    	
+    	float[][] latmax = test();
+    	float maxmurai=latmax[0][0];
+    	for (int n=1; n<photonum/2; n++){
+    		if(maxmurai<latmax[n][0]){
+    			maxmurai=latmax[n][0];
+    		}
+    	}
+    	return maxmurai;
+    }
+    public float minlat(){
+    	float[][] latmin = test();
+    	float minmurai=latmin[0][0];
+    	for (int n=1; n<photonum/2; n++){
+    		if(minmurai>latmin[n][0]){
+    			minmurai=latmin[n][0];
+    		}
+    	}
+    	return minmurai;
+    }
+    public float maxlon(){
+    	float[][] lonmax = test();
+    	float maxmurai=lonmax[0][1];
+    	for (int n=1; n<photonum/2; n++){
+    		if(maxmurai<lonmax[n][1]){
+    			maxmurai=lonmax[n][1];
+    		}
+    	}
+    	return maxmurai;
+    }
+    public float minlon(){
+    	float[][] lonmin = test();
+    	float minmurai=lonmin[0][1];
+    	for (int n=1; n<photonum/2; n++){
+    		if(minmurai>lonmin[n][1]){
+    			minmurai=lonmin[n][1];
+    		}
+    	}
+    	return minmurai;
+    }
 }

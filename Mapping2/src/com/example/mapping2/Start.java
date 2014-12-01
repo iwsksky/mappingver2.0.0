@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -19,18 +20,12 @@ import android.widget.TextView;
 public class Start extends ActionBarActivity{
 	public String str;
 	public float[] ono;
+	static Context context;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-		
-		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
-		// ディスプレイのインスタンス生
-		Display disp = wm.getDefaultDisplay();
-		Point size = new Point();
-		disp.getSize(size);
-		
 	
 		//button1
 		
@@ -54,14 +49,18 @@ public class Start extends ActionBarActivity{
 		});
 		
 	
-		Sizemodify sm= new Sizemodify();
-		float[][] ono = new float[2*sm.filenum][2];
+	
 		TextView tv = (TextView)findViewById(R.id.textView1);
-		ono=sm.test();
+		Sizemodify sm1 = new Sizemodify(this);
+		sm1.test();
+		final float minx = sm1.minlat();
+
+		
+		
 		
 		/*Sizemodify sm2= new Sizemodify();
 		sm2.test();*/
-		str=String.valueOf(sm.ea[1].lat);
+		str=String.valueOf(minx);
 		tv.setText(str);
 		
 		Button btn3 = (Button)findViewById(R.id.button3);
@@ -70,12 +69,14 @@ public class Start extends ActionBarActivity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(Start.this, Imagelist.class);
+				Intent intent = new Intent(Start.this, FolderList.class);
 				startActivity(intent);
 				// TODO Auto-generated method stub
 				
 			}
 		});
+		
+		
 		
 	}
 	

@@ -28,23 +28,22 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 public class GV extends ActionBarActivity {
-	protected static Context context;
+	public static Context context;
 	ScrollView scrollView;  
 	HorizontalScrollView horizontalscrollView;
-	LinearLayout linearLayout; 
-	private File[] images;
-	private List<String> imagelist = new ArrayList<String>();
-	private List<String> data = new ArrayList<String>();
-	private ListView lv;
-	private String[] info;
-	private String[] stringArray;
-	private int l = 0;
-	private float[] lat;
+	LinearLayout linearLayout;
 	public View GraphicView;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+
+		Display disp = wm.getDefaultDisplay();
+		Point size = new Point();
+		disp.getSize(size);
+
 		
 		scrollView = new ScrollView(this); 
 		horizontalscrollView = new HorizontalScrollView(this);
@@ -52,10 +51,13 @@ public class GV extends ActionBarActivity {
 	    linearLayout.setOrientation(LinearLayout.VERTICAL);
 		
 		//縦横スクロール
-	    scrollView.addView(new GraphicView(this));
+	    //scrollView.addView(new GraphicView(this));
 	    horizontalscrollView.addView(scrollView);
 		setContentView(new TestView(this));
 		
+	}
+	public static Context getContext() {
+	    return context;
 	}
 		
 

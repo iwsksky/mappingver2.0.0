@@ -9,7 +9,10 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,12 +23,18 @@ import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Environment;
+import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
-public class Sizemodify extends ActionBarActivity  {
+public class Sizemodify extends View{
+	public Sizemodify(Context context) {
+		super(context);
+		// TODO Auto-generated constructor stub
+	}
 
 	private File[] images;
 	private List<String> imagelist = new ArrayList<String>();
@@ -42,44 +51,49 @@ public class Sizemodify extends ActionBarActivity  {
 	public static float[][] aska;
 	public float[] testnum;
 	public ExifArray[] ea;
-	int orientation;
 	
+	public static Context context;
+	public int diswidth,disheight;
 
 	public int filenum;
-	static Context context;
-
-	
-	public void up(){
-		z=z+1;
-	}
+	public int x,y;
+	public float[][] test;
 	
 	
 
     public float[][] test() {
+    	context=this.getContext();
+    	WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE) ;
+    	Display disp = wm.getDefaultDisplay();
+    	Point size = new Point();
+    	disp.getSize(size);
     	
 		//mr=chage.arraylat();
     	String path = Environment.getExternalStorageDirectory().getPath();
 		
+    	/*gsb=new Getsizebroad();
+		gsb.sm=this;
+		intentfilter = new IntentFilter();
+		intentfilter.addAction("getsizeservice");
+		registerReceiver(gsb, intentfilter);
+		
+    	Intent intent = new Intent(Sizemodify.this, Getsizeservice.class);
+		startActivity(intent);*/
+    	
 		
 		
-		FilenameFilter fFilter = new FilenameFilter() {
-			    public boolean accept(File dir, String filename) {
-			        return filename.matches(".+.jpg"); //正規表現で検索
-			    }
-		};
 
 		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
 		filenum=images.length;
 		//stringArray = new images.getName();
 		//orient.size()がnull
-		//float[] orientation = new float[100];
 		float[][] aska= new float[filenum][2];
 		ea = new ExifArray[filenum];
 		List<Float> orient = new ArrayList<Float>();
-		/*TestView tv = new TestView(getApplicationContext());
-		tv.size();
-		int y=tv.disheight;
-		int x=tv.diswidth;*/
+		/*クラスのみを追加しているのでnullになる
+		 * activityを追加
+		 */
+	
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
 			String[] stringArray =  new String[images.length];//配列数１０
@@ -122,43 +136,10 @@ public class Sizemodify extends ActionBarActivity  {
 							int scale = Math.max(modheight, modwidth);*/
 							
 							options.inJustDecodeBounds=false;
-							options.inSampleSize=100;
+							options.inSampleSize=size.x;
 							//byte[] image = exif.getThumbnail();
-							//orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
-							/*Matrix matrix = new Matrix();
-							switch (orientation) {
-							case ExifInterface.ORIENTATION_UNDEFINED:
-								break;
-							case ExifInterface.ORIENTATION_NORMAL:
-								break;
-							case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-								matrix.postScale(-1f, 1f);
-								break;
-							case ExifInterface.ORIENTATION_ROTATE_180:
-								matrix.postRotate(180f);
-								break;
-							case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-								matrix.postScale(1f, -1f);
-								break;
-							case ExifInterface.ORIENTATION_ROTATE_90:
-								matrix.postRotate(90f);
-								break;
-							case ExifInterface.ORIENTATION_TRANSVERSE:
-								matrix.postRotate(-90f);
-								matrix.postScale(1f, -1f);
-								break;
-							case ExifInterface.ORIENTATION_TRANSPOSE:
-								matrix.postRotate(90f);
-								matrix.postScale(1f, -1f);
-								break;
-							case ExifInterface.ORIENTATION_ROTATE_270:
-								matrix.postRotate(-90f);
-								break;
-							}*/
-							Bitmap bitmap =BitmapFactory.decodeFile(path+"/DCIM/Camera/"+images[i].getName(), options);
-							//Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, 10,10);
-							//Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-							ea[m]=new ExifArray(latlong[0],latlong[1],bitmap);
+							int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
+							ea[m]=new ExifArray(latlong[0],latlong[1],i);
 							m=m+1;
 						
 						}
@@ -186,49 +167,51 @@ public class Sizemodify extends ActionBarActivity  {
 		}
 		
 		//オブジェクト型配列生成
-		
+		test=orientation;
 		return orientation;
+		
     
     }
     public float maxlat(){
     	
-    	float[][] latmax = test();
+    	float[][] latmax = test;
     	float maxmurai=latmax[0][0];
-    	for (int n=1; n<photonum/2; n++){
-    		if(maxmurai<latmax[n][0]){
-    			maxmurai=latmax[n][0];
+    	for (int a=1; a<photonum/2; a++){
+    		if(maxmurai<latmax[a][0]){
+    			maxmurai=latmax[a][0];
     		}
     	}
     	return maxmurai;
     }
     public float minlat(){
-    	float[][] latmin = test();
+    	float[][] latmin = test;
     	float minmurai=latmin[0][0];
-    	for (int n=1; n<photonum/2; n++){
-    		if(minmurai>latmin[n][0]){
-    			minmurai=latmin[n][0];
+    	for (int b=1; b<photonum/2; b++){
+    		if(minmurai>latmin[b][0]){
+    			minmurai=latmin[b][0];
     		}
     	}
     	return minmurai;
     }
     public float maxlon(){
-    	float[][] lonmax = test();
+    	float[][] lonmax = test;
     	float maxmurai=lonmax[0][1];
-    	for (int n=1; n<photonum/2; n++){
-    		if(maxmurai<lonmax[n][1]){
-    			maxmurai=lonmax[n][1];
+    	for (int d=1; d<photonum/2; d++){
+    		if(maxmurai<lonmax[d][1]){
+    			maxmurai=lonmax[d][1];
     		}
     	}
     	return maxmurai;
     }
     public float minlon(){
-    	float[][] lonmin = test();
+    	float[][] lonmin = test;
     	float minmurai=lonmin[0][1];
-    	for (int n=1; n<photonum/2; n++){
-    		if(minmurai>lonmin[n][1]){
-    			minmurai=lonmin[n][1];
+    	for (int e=1; e<photonum/2; e++){
+    		if(minmurai>lonmin[e][1]){
+    			minmurai=lonmin[e][1];
     		}
     	}
     	return minmurai;
     }
+	
 }

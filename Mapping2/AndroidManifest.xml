@@ -48,6 +48,37 @@
             android:name=".PhotoViewer"
             android:label="@string/title_activity_photo_viewer" >
         </activity>
+        <activity
+            android:name=".GraphicView"
+            android:label="@string/title_activity_graphic_view" >
+        </activity>
+
+        <service android:name=".Getsizeservice" />
+
+        <activity
+            android:name=".ViewpagerActivity"
+            android:label="@string/title_activity_viewpager" >
+        </activity>
+        <activity
+            android:name=".Test"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".ViewPagerActivity"
+            android:label="@string/title_activity_view_pager" >
+        </activity>
+        <activity
+            android:name=".ListViewSampleActivity"
+            android:label="@string/title_activity_list_view_sample" >
+        </activity>
+        <activity
+            android:name=".FolderList"
+            android:label="@string/title_activity_folder_list" >
+        </activity>
+        <activity
+            android:name=".FolderListFragment"
+            android:label="@string/title_activity_folder_list_fragment" >
+        </activity>
     </application>
 
 </manifest>

@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 public class ExifArray {
 	float lat;
 	float lon;
-	Bitmap bitmap;
+	int i;
 	
-	ExifArray(float lat, float lon, Bitmap thumb){
+	ExifArray(float lat, float lon, int i){
 		this.lat=lat;
 		this.lon=lon;
-		this.bitmap=thumb;
+		this.i=i;
 	}
 	
 	

@@ -9,5 +9,12 @@
     <string name="title_activity_gv">GV</string>
     <string name="title_activity_displaywidthheight">Displaywidthheight</string>
     <string name="title_activity_photo_viewer">PhotoViewer</string>
+    <string name="title_activity_graphic_view">GraphicView</string>
+    <string name="title_activity_viewpager">ViewpagerActivity</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_view_pager">ViewPagerActivity</string>
+    <string name="title_activity_list_view_sample">ListViewSampleActivity</string>
+    <string name="title_activity_folder_list">FolderList</string>
+    <string name="title_activity_folder_list_fragment">FolderListFragment</string>
 
 </resources>
