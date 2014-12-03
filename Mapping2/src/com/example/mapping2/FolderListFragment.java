@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.KeyEvent;
@@ -85,11 +86,18 @@ public class FolderListFragment extends ListFragment {
 		        return false;
 		    }
 		});
+		context=this.getActivity();
 		
-		this.getListView().ges(new AdapterView.OnItemLongClickListener() {
+		this.getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
 			@Override
-			public boolean onLongPress()
-		})
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(context, GV.class);
+				startActivity(intent);
+				return false;
+			}
+		});
 		
 		
 	}

@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -77,6 +78,17 @@ public class FolderCycle extends ListFragment {
 		        }
 		        return false;
 		    }
+		});
+		
+		this.getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(FolderList.context, GV.class);
+				startActivity(intent);
+				return false;
+			}
 		});
 	}
 	
