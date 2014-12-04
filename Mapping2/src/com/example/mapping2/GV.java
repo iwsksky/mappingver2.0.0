@@ -9,6 +9,7 @@ import java.util.List;
 import android.support.v7.app.ActionBarActivity;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.media.ExifInterface;
@@ -29,6 +30,7 @@ import android.widget.ScrollView;
 
 public class GV extends ActionBarActivity {
 	public static Context context;
+	public static String path;
 	ScrollView scrollView;  
 	HorizontalScrollView horizontalscrollView;
 	LinearLayout linearLayout;
@@ -39,6 +41,10 @@ public class GV extends ActionBarActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+		Intent intent = getIntent();
+		//値受け取り
+		//DCIM/camera/の全ての写真のリストimage[i]の変数iを取得
+		path = intent.getStringExtra("PATH");
 
 		Display disp = wm.getDefaultDisplay();
 		Point size = new Point();

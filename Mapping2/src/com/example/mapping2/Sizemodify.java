@@ -36,7 +36,7 @@ public class Sizemodify extends View{
 		// TODO Auto-generated constructor stub
 	}
 
-	private File[] images;
+	private File[] images,photos;
 	private List<String> imagelist = new ArrayList<String>();
 	private List<String> data = new ArrayList<String>();
 	public List<Float> orient;
@@ -55,9 +55,23 @@ public class Sizemodify extends View{
 	public static Context context;
 	public int diswidth,disheight;
 
-	public int filenum;
+	public int filenum,jpgnum;
 	public int x,y;
 	public float[][] test;
+	
+	public int jpgnum(String path2){
+		photos = new File(path2).listFiles();
+		jpgnum=0;
+		for (int i=0; i<photos.length; i++){
+			if(photos[i].isFile() && photos[i].getName().endsWith(".jpg")){
+				jpgnum=jpgnum+1;
+				if(jpgnum>2){
+					break;
+				}
+			}
+		}
+		return jpgnum;
+	}
 	
 	
 
@@ -67,23 +81,10 @@ public class Sizemodify extends View{
     	Display disp = wm.getDefaultDisplay();
     	Point size = new Point();
     	disp.getSize(size);
-    	
-		//mr=chage.arraylat();
-    	String path = Environment.getExternalStorageDirectory().getPath();
-		
-    	/*gsb=new Getsizebroad();
-		gsb.sm=this;
-		intentfilter = new IntentFilter();
-		intentfilter.addAction("getsizeservice");
-		registerReceiver(gsb, intentfilter);
-		
-    	Intent intent = new Intent(Sizemodify.this, Getsizeservice.class);
-		startActivity(intent);*/
-    	
 		
 		
 
-		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
+		images = new File(GV.path).listFiles();//ファイル数１０
 		filenum=images.length;
 		//stringArray = new images.getName();
 		//orient.size()がnull
@@ -172,6 +173,8 @@ public class Sizemodify extends View{
 		
     
     }
+    //有効画像が2枚以上ない場合Arrayoutofindex
+    //GPSタグがついていない画像も0枚判定
     public float maxlat(){
     	
     	float[][] latmax = test;

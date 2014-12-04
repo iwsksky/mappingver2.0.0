@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FolderCycle extends ListFragment {
 	public static Context context;
@@ -56,15 +57,19 @@ public class FolderCycle extends ListFragment {
                 FolderListFragment flf = new FolderListFragment();
                 Bundle bundle = new Bundle();
                 String path2 = path + "/"+item;
-        		bundle.putString("path", path2);
-        		flf.setArguments(bundle);
-        		FragmentManager manager = getFragmentManager();
-        	    FragmentTransaction transaction = manager.beginTransaction();
-        	    transaction.replace(R.id.container, flf);
-        	    transaction.addToBackStack(null);
-        	    transaction.commit();
+                if(!item.endsWith(".jpg")){
+                	bundle.putString("path", path2);
+                	flf.setArguments(bundle);
+                	FragmentManager manager = getFragmentManager();
+                	FragmentTransaction transaction = manager.beginTransaction();
+                	transaction.replace(R.id.container, flf);
+                	transaction.addToBackStack(null);
+                	transaction.commit();
+                }
             }
         });
+		context=this.getActivity();
+		final int i =getFragmentManager().getBackStackEntryCount();
 		this.getListView().setOnKeyListener(new View.OnKeyListener() {
 		    @Override
 		    public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -72,6 +77,9 @@ public class FolderCycle extends ListFragment {
 		            if (event.getAction() == KeyEvent.ACTION_UP) {
 		                getFragmentManager().popBackStack();
 		                return true;
+		            } if(i==0){
+		            	getActivity().finish();
+		            
 		            } else {
 		                return true;
 		            }
@@ -79,17 +87,32 @@ public class FolderCycle extends ListFragment {
 		        return false;
 		    }
 		});
-		
 		this.getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(FolderList.context, GV.class);
+				Intent intent = new Intent(context, GV.class);
+				Bundle bundle = new Bundle();
+				ListView listView = (ListView) parent;
+				String item = (String) listView.getItemAtPosition(position);
+                String path2 = path + "/"+item;
+                Sizemodify sm = new Sizemodify(context);
+                if(sm.jpgnum(path2)==3){
+				bundle.putString("path", path2);
+				intent.putExtra("PATH", path2);
 				startActivity(intent);
+                }
+                else{
+                	Toast.makeText(context, "選択したフォルダには写真がありません", Toast.LENGTH_LONG).show();
+                
+                }
+                
 				return false;
 			}
 		});
+		
+		
 	}
 	
 

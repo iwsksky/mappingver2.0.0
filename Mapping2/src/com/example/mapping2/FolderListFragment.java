@@ -63,15 +63,18 @@ public class FolderListFragment extends ListFragment {
                 FolderCycle fc = new FolderCycle();
                 Bundle bundle = new Bundle();
                 String path2 = path + "/"+item;
-        		bundle.putString("path", path2);
-        		fc.setArguments(bundle);
-        		FragmentManager manager = getFragmentManager();
-        	    FragmentTransaction transaction = manager.beginTransaction();
-        	    transaction.replace(R.id.container, fc);
-        	    transaction.addToBackStack(null);
-        	    transaction.commit();
+                if(!item.endsWith(".jpg")){
+                	bundle.putString("path", path2);
+                	fc.setArguments(bundle);
+                	FragmentManager manager = getFragmentManager();
+                	FragmentTransaction transaction = manager.beginTransaction();
+                	transaction.replace(R.id.container, fc);
+                	transaction.addToBackStack(null);
+                	transaction.commit();
+                }
             }
         });
+		final int i =getFragmentManager().getBackStackEntryCount();
 		this.getListView().setOnKeyListener(new View.OnKeyListener() {
 		    @Override
 		    public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -79,6 +82,8 @@ public class FolderListFragment extends ListFragment {
 		            if (event.getAction() == KeyEvent.ACTION_UP) {
 		                getFragmentManager().popBackStack();
 		                return true;
+		            } if(i==0){
+		            	getActivity().finish();
 		            } else {
 		                return true;
 		            }
@@ -94,7 +99,21 @@ public class FolderListFragment extends ListFragment {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(context, GV.class);
+				Bundle bundle = new Bundle();
+				ListView listView = (ListView) parent;
+				String item = (String) listView.getItemAtPosition(position);
+                String path2 = path + "/"+item;
+                Sizemodify sm = new Sizemodify(context);
+                if(sm.jpgnum(path2)==3){
+				bundle.putString("path", path2);
+				intent.putExtra("PATH", path2);
 				startActivity(intent);
+                }
+                else{
+                	Toast.makeText(context, "フォルダを選択しなおしてください", Toast.LENGTH_LONG).show();
+                
+                }
+			
 				return false;
 			}
 		});
