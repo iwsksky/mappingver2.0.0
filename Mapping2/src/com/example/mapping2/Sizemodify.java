@@ -1,34 +1,18 @@
 package com.example.mapping2;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.hardware.Camera;
 import android.media.ExifInterface;
-import android.os.Build;
 import android.os.Environment;
-import android.os.IBinder;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ListView;
 
 public class Sizemodify extends View{
 	public Sizemodify(Context context) {
@@ -38,14 +22,10 @@ public class Sizemodify extends View{
 
 	private File[] images,photos;
 	private List<String> imagelist = new ArrayList<String>();
-	private List<String> data = new ArrayList<String>();
 	public List<Float> orient;
-	private String[] info;
-	private String[] stringArray;
 	private int l = 0;
 	private int m =0;
 	private int n=0;
-	private int k=0;
 	public int z=0;
 	public int photonum;
 	public static float[][] aska;
@@ -60,6 +40,7 @@ public class Sizemodify extends View{
 	public float[][] test;
 	
 	public int jpgnum(String path2){
+		//jpgファイルをロングクリックした場合fileでないものをfileとして扱うことになる
 		photos = new File(path2).listFiles();
 		jpgnum=0;
 		for (int i=0; i<photos.length; i++){
@@ -97,7 +78,6 @@ public class Sizemodify extends View{
 	
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
-			String[] stringArray =  new String[images.length];//配列数１０
 			String[] info = new String[images.length];
 			if(images[i].isFile() && images[i].getName().endsWith(".jpg")){
 				imagelist.add(images[i].getName());
@@ -139,7 +119,6 @@ public class Sizemodify extends View{
 							options.inJustDecodeBounds=false;
 							options.inSampleSize=size.x;
 							//byte[] image = exif.getThumbnail();
-							int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED);
 							ea[m]=new ExifArray(latlong[0],latlong[1],i);
 							m=m+1;
 						

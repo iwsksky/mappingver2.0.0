@@ -1,31 +1,17 @@
 package com.example.mapping2;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v7.app.ActionBarActivity;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Matrix;
 import android.graphics.Point;
-import android.media.ExifInterface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 public class GV extends ActionBarActivity {

@@ -3,20 +3,13 @@ package com.example.mapping2;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.v7.app.ActionBarActivity;
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +34,7 @@ public class FolderListFragment extends ListFragment {
 		
 		images = new File(path).listFiles();//ファイル数１０
 		filename= new String[images.length];
-		
+
 		for (int i=0; i<images.length; i++){//１０回回す
 			filename[i]=images[i].getName();
 			imagelist.add(images[i].getName());
@@ -110,7 +103,7 @@ public class FolderListFragment extends ListFragment {
 				startActivity(intent);
                 }
                 else{
-                	Toast.makeText(context, "フォルダを選択しなおしてください", Toast.LENGTH_LONG).show();
+                	Toast.makeText(context, "選択したフォルダには写真がありません。", Toast.LENGTH_LONG).show();
                 
                 }
 			

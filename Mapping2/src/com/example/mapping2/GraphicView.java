@@ -62,13 +62,6 @@ public class GraphicView extends ActionBarActivity {
 		//mr=chage.arraylat();
     	String path = Environment.getExternalStorageDirectory().getPath();
 		
-		
-		
-		FilenameFilter fFilter = new FilenameFilter() {
-			    public boolean accept(File dir, String filename) {
-			        return filename.matches(".+.jpg"); //正規表現で検索
-			    }
-		};
 
 		images = new File(path+"/DCIM/Camera").listFiles();//ファイル数１０
 		filenum=images.length;
@@ -85,7 +78,6 @@ public class GraphicView extends ActionBarActivity {
 		TestView tv = new TestView(this.getApplicationContext());
 		//画像のみのフォルダを作成する
 		for (int i=0; i<filenum; i++){//１０回回す
-			String[] stringArray =  new String[images.length];//配列数１０
 			String[] info = new String[images.length];
 			if(images[i].isFile() && images[i].getName().endsWith(".jpg")){
 				imagelist.add(images[i].getName());

@@ -104,7 +104,7 @@ public class FolderCycle extends ListFragment {
 				startActivity(intent);
                 }
                 else{
-                	Toast.makeText(context, "選択したフォルダには写真がありません", Toast.LENGTH_LONG).show();
+                	Toast.makeText(context, "選択したフォルダには写真がありません。", Toast.LENGTH_LONG).show();
                 
                 }
                 

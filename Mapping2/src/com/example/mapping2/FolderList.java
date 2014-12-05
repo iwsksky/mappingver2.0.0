@@ -2,9 +2,6 @@ package com.example.mapping2;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -13,15 +10,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class FolderList extends Activity {
 	public File[] images;
 	public ArrayList<String> folder= new ArrayList<String>();
-	private List<String> imagelist = new ArrayList<String>();
 	public String[] filename;
 	public static Context context;
 

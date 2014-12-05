@@ -3,14 +3,8 @@ package com.example.mapping2;
 import java.io.File;
 import java.io.IOException;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.os.Bundle;
-import android.os.Environment;
 
 public class Getmatrix {
 	public int x;

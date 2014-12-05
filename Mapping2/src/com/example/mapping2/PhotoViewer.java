@@ -1,15 +1,12 @@
 package com.example.mapping2;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.support.v7.app.ActionBarActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -18,7 +15,6 @@ import android.widget.ImageView;
 
 public class PhotoViewer extends ActionBarActivity {
 
-	private Context context;
 	public int x;
 	private File[] images;
 	public int filenum;
